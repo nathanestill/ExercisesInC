@@ -14,7 +14,7 @@ int *foo() {
     int i;
     int array[SIZE];
 
-    //printf("%p\n", array);
+    printf("%p\n", array);
 
     for (i=0; i<SIZE; i++) {
         array[i] = 42;
@@ -26,7 +26,7 @@ void bar() {
     int i;
     int array[SIZE];
 
-    //printf("%p\n", array);
+    printf("%p\n", array);
 
     for (i=0; i<SIZE; i++) {
         array[i] = i;
@@ -45,3 +45,12 @@ int main()
 
     return 0;
 }
+/*
+1. It is intended to output a bunch of 42s I think
+   I think that it will give random junk or error or something.
+   The array that the pointer references is gone after the function ends so it should reference random stuff I think.
+2. I do get a warning. It means that the stuff inside the address is deleted.
+3. I think my initial guess is what's happening. It tries to reference a variable that no longer exists.
+4. The same thing happens. But both addresses are the same address.
+5. 
+*/
