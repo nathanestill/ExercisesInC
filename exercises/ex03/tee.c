@@ -2,7 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+/*
+3. I used the HFC book a lot to get most of the argument, file opening, etc stuff and it helped a lot.
+I used the pdf and I think I should have used my hard copy and it would've gone faster.
+4. That implementation has a lot of code, and uses many warnings that I don't really understand, but the 
+command line argument handling seems to largely be the same.
 
+*/
 
 int main(int argc, char *argv[]){
 	int aFlag = 0;
