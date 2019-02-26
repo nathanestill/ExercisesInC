@@ -1,5 +1,5 @@
 #include "trout.h"
-
+#include "util.h"
 
 int max_ttl = 30;
 int nprobes = 2;
