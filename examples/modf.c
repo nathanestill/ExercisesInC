@@ -93,7 +93,7 @@ void test_get_both_parts()
         printf("%.18lf  %.18lf\n", int_part[i], expected_int[i]);
         printf("%.18lf  %.18lf\n", frac_part[i], expected_frac[i]);
         assert(int_part[i] == expected_int[i]);
-        assert(frac_part[i] == expected_frac[i]);
+        assert(abs(frac_part[i] - expected_frac[i]) < 0.00000001);
     }
 }
 

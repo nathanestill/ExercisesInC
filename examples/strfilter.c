@@ -5,10 +5,10 @@
 char *strfilter1(char *string, char *letters) {
     char buffer[strlen(string)+1];
     int j = 0;
-
+    int stringLength = strlen(string);
     // TODO: hoist strlen out of the loop!
     // See "Accidentally quadratic"
-    for (int i=0; i<strlen(string); i++) {
+    for (int i=0; i<stringLength; i++) {
         char *ptr = strchr(letters, string[i]);
         if (ptr) {
             buffer[j++] = string[i];
@@ -23,7 +23,7 @@ char *strfilter2(char *string, char *letters) {
     char *dest = buffer;
     char c;
 
-    while (c = *string++) {
+    while ((c = *string++)) {
         char *ptr = strchr(letters, c);
         if (ptr) {
             *dest++ = c;
@@ -37,7 +37,7 @@ char *strfilter2(char *string, char *letters) {
 
 char *strfilter3(char *string, char *letters) {
     int length = strlen(string);
-    char buffer[length];
+    char buffer[length+1];
     int j = 0;
 
     for (int i=0; i<length; i++) {
@@ -46,22 +46,24 @@ char *strfilter3(char *string, char *letters) {
             buffer[j++] = string[i];
         }
     }
-    return buffer;
+    return strdup(buffer);
 }
 
 char *strfilter4(char *string, char *letters) {
     char buffer[100];
     char c;
 
-    while (c = *string++) {
+    while ((c = *string++)) {
         char *ptr = strchr(letters, c);
+        char letter[] = {c,'\0'};
         if (ptr) {
-            strcat(buffer, c);
+            strcat(buffer, letter);
         }
     }
-    int length = sizeof(buffer);
-    char *res = (char *) malloc (length * sizeof(char));
-    strcpy(buffer, res);
+    int length = strlen(buffer);
+    char *res = (char *) malloc ((length+1) * sizeof(char));
+
+    strcpy(res,buffer);
     return res;
 }
 
