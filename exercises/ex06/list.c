@@ -90,6 +90,9 @@ void push(Node **list, int val) {
 * returns: number of nodes removed
 */
 int remove_by_value(Node **list, int val) {
+    if(*list == NULL){
+    	return 0;
+    }
     Node *current = *list;
     Node *temp;
     while (current->next != NULL) {
@@ -111,25 +114,29 @@ int remove_by_value(Node **list, int val) {
 * list: pointer to pointer to Node
 */
 void reverse(Node **list) {
+	if(*list == NULL){
+		return;
+	}
 	Node *current = (*list)->next;
-	Node *temp = *list;
+	Node *prevNode = *list;
 	Node *nextNode;
     while(current != NULL){
     	nextNode = current->next;
-    	current->next = temp;
-    	temp = current;
+    	current->next = prevNode;
+    	prevNode = current;
     	current = nextNode;
     }
     (*list)->next = NULL;
-    *list = temp;
+    *list = prevNode;
 }
 
 
 int main() {
-    Node *head = make_node(1, NULL);
-    head->next = make_node(2, NULL);
-    head->next->next = make_node(3, NULL);
-    head->next->next->next = make_node(4, NULL);
+	Node *head = NULL;
+    // Node *head = make_node(1, NULL);
+    // head->next = make_node(2, NULL);
+    // head->next->next = make_node(3, NULL);
+    // head->next->next->next = make_node(4, NULL);
 
     Node **list = &head;
     print_list(list);
@@ -137,7 +144,7 @@ int main() {
     int retval = pop(list);
     print_list(list);
 
-    push(list, retval+10);
+    //push(list, retval+10);
     print_list(list);
 
     remove_by_value(list, 3);

@@ -54,6 +54,9 @@ void print_list(Node **list) {
 * returns: int or -1 if the list is empty
 */
 int pop(Node **list) {
+    if(*list == NULL){
+        return -1;
+    }
     int retval;
     Node *head = *list;
 
