@@ -132,11 +132,10 @@ void reverse(Node **list) {
 
 
 int main() {
-	Node *head = NULL;
-    // Node *head = make_node(1, NULL);
-    // head->next = make_node(2, NULL);
-    // head->next->next = make_node(3, NULL);
-    // head->next->next->next = make_node(4, NULL);
+    Node *head = make_node(1, NULL);
+    head->next = make_node(2, NULL);
+    head->next->next = make_node(3, NULL);
+    head->next->next->next = make_node(4, NULL);
 
     Node **list = &head;
     print_list(list);
@@ -144,7 +143,7 @@ int main() {
     int retval = pop(list);
     print_list(list);
 
-    //push(list, retval+10);
+    push(list, retval+10);
     print_list(list);
 
     remove_by_value(list, 3);
