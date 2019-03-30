@@ -30,7 +30,12 @@ Matrix *make_matrix(int num_rows, int num_cols) {
 /* Free a matrix.
 */
 void free_matrix(Matrix *matrix) {
-    // TODO: Fill this in.
+    int x = 0;
+    for(x = 0; x < matrix->num_rows; x++){
+        free(matrix->rows[x]);
+    }
+    free(matrix->rows);
+    free(matrix);
 }
 
 /* Print a row of a matrix.
@@ -56,7 +61,11 @@ Subtract a multiple of row j from row i so that the first element
 of row i is 0.
 */
 void reduce_matrix_rows(Matrix *matrix, int i, int j) {
-    // TODO: Fill this in.
+    double coef = matrix->rows[j][0] / matrix->rows[i][0];
+    int x = 0;
+    for(x = 0; x < matrix->num_rows; x++){
+        matrix->rows[i][x] = matrix->rows[i][x] - matrix->rows[j][x] / coef;
+    }
 }
 
 int main () {

@@ -53,8 +53,9 @@ void print_list(Node *list) {
 * returns: head of modified list
 */
 Node *pop(Node *list, int *value_p) {
-    // FILL THIS IN
-    return list;
+	*value_p = list->val;
+    Node *new_head = list->next;
+    return new_head;
 }
 
 /* Adds a new element to the beginning of the list.

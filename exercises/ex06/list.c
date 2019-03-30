@@ -46,6 +46,18 @@ void print_list(Node **list) {
     printf("]\n");
 }
 
+int swap(Node **list) {
+    if(*list == NULL || (*list)->next == NULL){
+        return -1;
+    }    
+    Node *nextNode = (*list)->next;
+    Node *first = (*list);
+    first->next = nextNode->next;
+    nextNode->next = first;
+    *list = nextNode;
+    return 0;
+}
+
 
 /* Removes and returns the first element of a list.
 *
@@ -133,15 +145,16 @@ void reverse(Node **list) {
 
 int main() {
     Node *head = make_node(1, NULL);
-    head->next = make_node(2, NULL);
-    head->next->next = make_node(3, NULL);
-    head->next->next->next = make_node(4, NULL);
 
     Node **list = &head;
     print_list(list);
 
     int retval = pop(list);
     print_list(list);
+
+    int success = swap(list);
+    print_list(list);
+    printf("%d\n", success);
 
     push(list, retval+10);
     print_list(list);
