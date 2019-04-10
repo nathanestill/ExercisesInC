@@ -1,3 +1,9 @@
+/*
+
+It doesn't look like any of the variables global, heap or stack are constant.
+
+
+
 /* Example code for Exercises in C.
 
 Copyright 2016 Allen B. Downey
