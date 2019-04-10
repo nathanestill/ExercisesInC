@@ -18,6 +18,7 @@ License: MIT License https://opensource.org/licenses/MIT
 // errno is an external global variable that contains
 // error information
 extern int errno;
+int sameGlobal = 1;
 
 
 // get_seconds returns the number of seconds since the
@@ -45,7 +46,9 @@ int main(int argc, char *argv[])
     pid_t pid;
     double start, stop;
     int i, num_children;
-
+    int sameStack = 1;
+    int* sameHeap = malloc(sizeof(int));
+    *sameHeap = 1;
     // the first command-line argument is the name of the executable.
     // if there is a second, it is the number of children to create.
     if (argc == 2) {
@@ -62,7 +65,6 @@ int main(int argc, char *argv[])
         // create a child process
         printf("Creating child %d.\n", i);
         pid = fork();
-
         /* check for an error */
         if (pid == -1) {
             fprintf(stderr, "fork failed: %s\n", strerror(errno));
@@ -72,6 +74,9 @@ int main(int argc, char *argv[])
 
         /* see if we're the parent or the child */
         if (pid == 0) {
+            sameStack = sameGlobal+1;
+            sameStack = sameStack+1;
+            *sameHeap = *sameHeap + 1;
             child_code(i);
             exit(i);
         }
@@ -79,10 +84,8 @@ int main(int argc, char *argv[])
 
     /* parent continues */
     printf("Hello from the parent.\n");
-
     for (i=0; i<num_children; i++) {
         pid = wait(&status);
-
         if (pid == -1) {
             fprintf(stderr, "wait failed: %s\n", strerror(errno));
             perror(argv[0]);
@@ -92,6 +95,9 @@ int main(int argc, char *argv[])
         // check the exit status of the child
         status = WEXITSTATUS(status);
         printf("Child %d exited with error code %d.\n", pid, status);
+        printf("%d\n", sameGlobal);
+        printf("%d\n", sameStack);
+        printf("%d\n", *sameHeap);
     }
     // compute the elapsed time
     stop = get_seconds();
