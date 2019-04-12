@@ -80,7 +80,7 @@ void child_code(Shared *shared)
 /* Entry point for the child threads.
 */
 void *entry(void *arg)
-{
+{   
     Shared *shared = (Shared *) arg;
     child_code(shared);
     pthread_exit(NULL);
