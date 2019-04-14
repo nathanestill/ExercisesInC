@@ -1,6 +1,20 @@
+all: 
+	make counter; make counter_array; make counter_array_mutex;
 
 counter: counter.c
 	gcc -Wall -o counter counter.c -lpthread
+
+counter_array: counter_array.c
+	gcc -Wall -o counter_array counter_array.c -lpthread
+
+counter_array_mutex: counter_array_mutex.o mutex.o
+	gcc -Wall -o counter_array_mutex counter_array_mutex.o mutex.o -lpthread
+
+mutex.o: mutex.c mutex.h
+	gcc -c mutex.c	
+
+counter_array_mutex.o: counter_array_mutex.c mutex.h
+	gcc -c counter_array_mutex.c
 
 counter_mutex: counter_mutex.c
 	gcc -Wall -o counter_mutex counter_mutex.c -lpthread
