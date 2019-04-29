@@ -1,9 +1,13 @@
 /* Example code for Exercises in C
+
 Copyright 2016 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
+
 Started with ex-ghashtable-3.c from
 http://www.ibm.com/developerworks/linux/tutorials/l-glib/section5.html
+
 Note: this version leaks memory.
+
 */
 
 #include <stdio.h>
@@ -23,6 +27,12 @@ gint compare_pair(gpointer v1, gpointer v2, gpointer user_data)
     Pair *p1 = (Pair *) v1;
     Pair *p2 = (Pair *) v2;
     return p1->freq - p2->freq;
+}
+
+void free_pair(void *value){
+    Pair *pair = (Pair *) value;
+    g_free(pair->word);
+    g_free(pair);
 }
 
 /* Iterator that prints pairs. */
@@ -45,9 +55,8 @@ void accumulator(gpointer key, gpointer value, gpointer user_data)
 {
     GSequence *seq = (GSequence *) user_data;
     Pair *pair = g_new(Pair, 1);
-    pair->word = (gchar *) key;
+    pair->word = g_strdup((gchar *) key);
     pair->freq = *(gint *) value;
-
     g_sequence_insert_sorted(seq,
         (gpointer) pair,
         (GCompareDataFunc) compare_pair,
@@ -68,7 +77,7 @@ void incr(GHashTable* hash, gchar *key)
         *val += 1;
     }
 }
-
+//
 int main(int argc, char** argv)
 {
     gchar *filename;
@@ -79,7 +88,6 @@ int main(int argc, char** argv)
     } else {
         filename = "emma.txt";
     }
-
     FILE *fp = g_fopen(filename, "r");
     if (fp == NULL) {
         perror(filename);
@@ -96,7 +104,7 @@ int main(int argc, char** argv)
     while (1) {
         gchar *res = fgets(line, sizeof(line), fp);
         if (res == NULL) break;
-
+        printf("Reading\n");
         array = g_strsplit(line, " ", 0);
         for (int i=0; array[i] != NULL; i++) {
             incr(hash, array[i]);
@@ -104,12 +112,11 @@ int main(int argc, char** argv)
         g_strfreev(array);
     }
     fclose(fp);
-
     // print the hash table
     // g_hash_table_foreach(hash, (GHFunc) kv_printor, "Word %s freq %d\n");
-//
+
     // iterate the hash table and build the sequence
-    GSequence *seq = g_sequence_new(g_free);
+    GSequence *seq = g_sequence_new(free_pair);
     g_hash_table_foreach(hash, (GHFunc) accumulator, (gpointer) seq);
 
     // iterate the sequence and print the pairs
@@ -118,6 +125,7 @@ int main(int argc, char** argv)
     // try (unsuccessfully) to free everything
     g_hash_table_destroy(hash);
     g_sequence_free(seq);
+    g_free(hash);
 
     return 0;
 }

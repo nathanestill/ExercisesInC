@@ -14,3 +14,6 @@ word_count: word_count.c
 
 word_count_soln: word_count_soln.c
 	$(CC) -o $@ $^ $(CFLAGS) $(GLIB_FLAGS) $(LIBS)
+
+word_count_fail: word_count_fail.c
+	$(CC) -o $@ $^ $(CFLAGS) $(GLIB_FLAGS) $(LIBS)

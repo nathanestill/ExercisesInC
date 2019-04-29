@@ -31,6 +31,22 @@ Node *make_node(int val, Node *next) {
     return node;
 }
 
+void free_nodes(Node *node){
+    if(node->next == NULL){
+        free(node);
+        return;
+    } else {
+        free_nodes(node->next);
+        free(node);
+        return;
+    }
+}
+
+void free_list(Node **list){
+    free_nodes(*list);
+}
+
+
 /* Prints the values in a list.
 *
 * list: pointer to pointer to Node
@@ -197,7 +213,7 @@ int main() {
 
     printf("test_list\n");
     print_list(&test_list);
-
+    free_list(&test_list);
     // make an empty list
     printf("empty\n");
     Node *empty = NULL;
@@ -205,9 +221,10 @@ int main() {
     // add an element to the empty list
     insert_by_index(&empty, 1, 0);
     print_list(&empty);
+    free_list(&empty);
 
     Node *something = make_something();
-    free(something);
+    free_list(&something);
 
     return 0;
 }
