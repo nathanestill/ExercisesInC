@@ -44,7 +44,22 @@ void end_game(int sig)
 /* Signal handler: Notify the user and raise SIGINT.
 */
 void times_up(int sig) {
+    int a, b, answer;
+    char txt[4];
     puts("\nTIME'S UP!");
+    a = 13;
+    b = 12;
+    printf("\nWhat is %d times %d? ", a, b);
+    char *ret = fgets(txt, 4, stdin);
+    answer = atoi(txt);
+
+    // check the answer
+    if (answer == a * b) {
+        printf("\nRight!\n");
+        score++;
+    } else {
+        printf("\nWrong!\n");
+    }
     raise(SIGINT);
 }
 
